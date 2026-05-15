@@ -1,18 +1,29 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { PokemonDetail } from "../types/pokemon";
 
 interface PokemonCardProps {
   pokemon: PokemonDetail;
+  onPress?: () => void;
 }
 
-const PokemonCard = ({ pokemon }: PokemonCardProps) => {
+const PokemonCard = ({ pokemon, onPress }: PokemonCardProps) => {
   const imageUrl =
     pokemon.sprites.other?.["official-artwork"]?.front_default ||
     pokemon.sprites.front_default;
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={onPress}
+      activeOpacity={0.8}
+    >
       <Text style={styles.number}>#{pokemon.id}</Text>
 
       {imageUrl && (
@@ -28,7 +39,7 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
           </View>
         ))}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

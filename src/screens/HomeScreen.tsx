@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, FlatList } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import PokemonCard from "../components/PokemonCard";
 import { PokemonDetail } from "../types/pokemon";
 import { getPokemonList } from "../services/pokeapi";
+import { RootStackParamList } from "../types/navigation";
 
-const HomeScreen = () => {
+type Props = NativeStackScreenProps<RootStackParamList, "Home">;
+
+const HomeScreen = ({ navigation }: Props) => {
   const [pokemonList, setPokemonList] = useState<PokemonDetail[]>([]);
 
   const loadPokemon = async () => {
@@ -19,18 +24,27 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaProvider>
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Pokédex</Text>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Pokédex</Text>
 
-      <FlatList
-        data={pokemonList}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <PokemonCard pokemon={item} />}
-        numColumns={2}
-        contentContainerStyle={styles.list}
-        showsVerticalScrollIndicator={false}
-      />
-    </SafeAreaView>
+        <FlatList
+          data={pokemonList}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <PokemonCard
+              pokemon={item}
+              onPress={() =>
+                navigation.navigate("PokemonDetail", {
+                  pokemonName: item.name,
+                })
+              }
+            />
+          )}
+          numColumns={2}
+          contentContainerStyle={styles.list}
+          showsVerticalScrollIndicator={false}
+        />
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 };

@@ -1,6 +1,29 @@
 import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import HomeScreen from "./src/screens/HomeScreen";
+import PokemonDetailScreen from "./src/screens/PokemonDetailScreen";
+import { RootStackParamList } from "./src/types/navigation";
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  return <HomeScreen />;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="PokemonDetail"
+          component={PokemonDetailScreen}
+          options={{ title: "Detalle del Pokémon" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
