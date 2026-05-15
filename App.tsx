@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import PokemonDetailScreen from "./src/screens/PokemonDetailScreen";
-import { RootStackParamList } from "./src/types/navigation";
+import { RootStackParamList } from "./src/types/navegation";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
