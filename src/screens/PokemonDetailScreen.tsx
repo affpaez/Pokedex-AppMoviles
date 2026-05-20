@@ -5,34 +5,74 @@ import {
   StyleSheet,
   ScrollView,
   View,
+  Button,
+  ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-
-import { RootStackParamList } from "../types/navigation";
+import { RootStackParamList } from "../types/navegation";
 import { PokemonDetail } from "../types/pokemon";
 import { getPokemonDetail } from "../services/pokeapi";
+import { toggleFavorite, isFavorite } from "../storage/favorites";
 
 type Props = NativeStackScreenProps<RootStackParamList, "PokemonDetail">;
 
 const PokemonDetailScreen = ({ route }: Props) => {
   const { pokemonName } = route.params;
   const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
+  const [isFav, setIsFav] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const loadPokemonDetail = async () => {
-    const data = await getPokemonDetail(pokemonName);
-    setPokemon(data);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await getPokemonDetail(pokemonName);
+      setPokemon(data);
+
+      const favorite = await isFavorite(pokemonName);
+      setIsFav(favorite);
+    } catch {
+      setError("No se pudo cargar el detalle del Pokémon. Intenta de nuevo.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleToggleFavorite = async () => {
+    if (!pokemon) return;
+
+    const updatedFavorites = await toggleFavorite(pokemon.name);
+    setIsFav(updatedFavorites.includes(pokemon.name));
   };
 
   useEffect(() => {
     loadPokemonDetail();
   }, []);
 
-  if (!pokemon) {
+  if (isLoading) {
     return (
       <View style={styles.centerContainer}>
-        <Text>Cargando detalle...</Text>
+        <ActivityIndicator size="large" color="#e63946" />
+        <Text style={styles.loadingText}>Cargando detalle...</Text>
       </View>
     );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={loadPokemonDetail}>
+          <Text style={styles.retryText}>Reintentar</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  if (!pokemon) {
+    return null;
   }
 
   const imageUrl =
@@ -57,6 +97,11 @@ const PokemonDetailScreen = ({ route }: Props) => {
           </View>
         ))}
       </View>
+
+      <Button
+        title={isFav ? "Quitar de favoritos" : "Agregar a favoritos"}
+        onPress={handleToggleFavorite}
+      />
 
       <Text style={styles.sectionTitle}>Información</Text>
       <Text style={styles.text}>Peso: {pokemon.weight / 10} kg</Text>
@@ -91,6 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: 20,
   },
   number: {
     fontSize: 18,
@@ -136,5 +182,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textTransform: "capitalize",
     marginBottom: 4,
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: "#666",
+  },
+  errorText: {
+    fontSize: 16,
+    color: "#e63946",
+    textAlign: "center",
+    marginBottom: 16,
+  },
+  retryButton: {
+    backgroundColor: "#e63946",
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  retryText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });

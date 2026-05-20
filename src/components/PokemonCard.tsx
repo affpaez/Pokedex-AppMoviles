@@ -10,10 +10,11 @@ import { PokemonDetail } from "../types/pokemon";
 
 interface PokemonCardProps {
   pokemon: PokemonDetail;
+  isFavorite?: boolean;
   onPress?: () => void;
 }
 
-const PokemonCard = ({ pokemon, onPress }: PokemonCardProps) => {
+const PokemonCard = ({ pokemon, isFavorite = false, onPress }: PokemonCardProps) => {
   const imageUrl =
     pokemon.sprites.other?.["official-artwork"]?.front_default ||
     pokemon.sprites.front_default;
@@ -25,6 +26,10 @@ const PokemonCard = ({ pokemon, onPress }: PokemonCardProps) => {
       activeOpacity={0.8}
     >
       <Text style={styles.number}>#{pokemon.id}</Text>
+
+      {isFavorite && (
+        <Text style={styles.favoriteIcon}>⭐</Text>
+      )}
 
       {imageUrl && (
         <Image source={{ uri: imageUrl }} style={styles.image} />
@@ -66,6 +71,12 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     color: "#777",
     fontWeight: "600",
+  },
+  favoriteIcon: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+    fontSize: 16,
   },
   image: {
     width: 100,

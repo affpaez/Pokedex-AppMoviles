@@ -29,3 +29,11 @@ export const getPokemonDetail = async (
 
   return response.data;
 };
+
+export const getPokemonTypes = async (): Promise<string[]> => {
+  const response = await axios.get(`${API_URL}/type`);
+
+  return response.data.results.map(
+    (type: { name: string }) => type.name
+  );
+};

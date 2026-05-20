@@ -1,5 +1,5 @@
 export type RootStackParamList = {
-  Inicio: undefined;
+  Home: undefined;
   PokemonDetail: {
     pokemonName: string;
   };
