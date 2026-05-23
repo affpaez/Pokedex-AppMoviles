@@ -33,7 +33,7 @@ const HomeScreen = ({ navigation }: Props) => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await getPokemonList(20);
+      const data = await getPokemonList(30);
       setPokemonList(data);
     } catch {
       setError("No se pudo cargar la lista de Pokémon. Intenta de nuevo.");
@@ -161,6 +161,14 @@ const HomeScreen = ({ navigation }: Props) => {
           numColumns={2}
           contentContainerStyle={styles.list}
           showsVerticalScrollIndicator={false}
+          ListFooterComponent={
+            <TouchableOpacity
+              style={styles.compareButton}
+              onPress={() => navigation.navigate("Compare")}
+            >
+              <Text style={styles.compareButtonText}>⚔️ Comparar Pokémon</Text>
+            </TouchableOpacity>
+          }
         />
       </SafeAreaView>
     </SafeAreaProvider>
@@ -236,6 +244,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   retryText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  compareButton: {
+    backgroundColor: "#e63946",
+    marginHorizontal: 16,
+    marginTop: 12,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  compareButtonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,

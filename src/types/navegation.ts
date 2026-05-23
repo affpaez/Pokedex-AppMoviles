@@ -3,4 +3,5 @@ export type RootStackParamList = {
   PokemonDetail: {
     pokemonName: string;
   };
+  Compare: undefined;
 };
