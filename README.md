@@ -10,7 +10,7 @@ Aplicación móvil tipo Pokédex desarrollada con Expo y React Native que consum
 
 ## Tecnologías utilizadas
 
-- [Expo](https://expo.dev/) + React Native
+- Expo + React Native
 - TypeScript
 - React Navigation (Native Stack)
 - Axios
