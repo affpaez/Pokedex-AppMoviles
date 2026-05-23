@@ -80,10 +80,6 @@ src/
 
 ## Capturas de pantalla
 
-> Agrega aquí tus capturas de pantalla.
-
-| Detalle | Favoritos | Comparador |
-|--------|---------|-----------|------------|
 | ![Detalle](./assets/screenshots/detalle.png) | ![Favoritos](./assets/screenshots/favoritos.png) | ![Comparador](./assets/screenshots/comparador.png)
 
 ---
