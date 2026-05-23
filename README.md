@@ -82,9 +82,9 @@ src/
 
 > Agrega aquí tus capturas de pantalla.
 
-| Listado | Detalle | Favoritos | Comparador |
+| Detalle | Favoritos | Comparador |
 |--------|---------|-----------|------------|
-| ![Listado]() | ![Detalle]() | ![Favoritos]() | ![Comparador]() |
+| ![Detalle](./assets/screenshots/detalle.png) | ![Favoritos](./assets/screenshots/favoritos.png) | ![Comparador](./assets/screenshots/comparador.png)
 
 ---
 
