@@ -23,7 +23,7 @@ Aplicación móvil tipo Pokédex desarrollada con Expo y React Native que consum
 
 1. Clona el repositorio:
    ```bash
-   git clone <url-del-repositorio>
+   git clone (https://github.com/affpaez/Pokedex-AppMoviles.git)
    cd Pokedex-AppMoviles
    ```
 
